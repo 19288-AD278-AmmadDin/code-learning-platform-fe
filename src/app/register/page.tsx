@@ -32,31 +32,48 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12"
-      style={{ background: "linear-gradient(135deg, #0a0a12 0%, #0f0820 100%)" }}>
-
-      <div className="fixed top-0 right-1/4 w-96 h-96 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%)" }} />
-      <div className="fixed bottom-0 left-1/4 w-96 h-96 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(6,182,212,0.1) 0%, transparent 70%)" }} />
-
-      <div className="w-full max-w-md relative">
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white"
-              style={{ background: "linear-gradient(135deg, #7c3aed, #06b6d4)" }}>
-              CS
-            </div>
-            <span className="font-bold text-2xl text-white">CodeSavvy</span>
+    <div
+      className="min-h-screen flex items-center justify-center px-4 py-12"
+      style={{ background: "var(--bg-primary)" }}
+    >
+      <div className="w-full max-w-md relative animate-fade-up">
+        <div className="text-center mb-9">
+          <Link href="/" className="inline-flex items-center gap-2 mb-7">
+            <span
+              className="heading-font text-2xl"
+              style={{ color: "var(--text-primary)" }}
+            >
+              Code<span style={{ color: "var(--accent)" }}>Savvy</span>
+            </span>
           </Link>
-          <h1 className="text-3xl font-bold text-white mb-2">Create your account</h1>
-          <p style={{ color: "#9ca3af" }}>Join 13k+ learners building the future</p>
+          <h1
+            className="text-3xl font-extrabold mb-2 tracking-tight"
+            style={{ color: "var(--text-primary)" }}
+          >
+            Create your account
+          </h1>
+          <p style={{ color: "var(--text-muted)" }}>
+            Join 13K+ learners building the future
+          </p>
         </div>
 
-        <div className="card p-8">
+        <div
+          className="rounded-2xl p-8"
+          style={{
+            background: "var(--bg-card)",
+            border: "1px solid var(--border-default)",
+            boxShadow: "var(--shadow-card)",
+          }}
+        >
           {error && (
-            <div className="mb-6 px-4 py-3 rounded-lg text-sm"
-              style={{ background: "rgba(239,68,68,0.15)", border: "1px solid rgba(239,68,68,0.3)", color: "#f87171" }}>
+            <div
+              className="mb-6 px-4 py-3 rounded-xl text-sm"
+              style={{
+                background: "rgba(239,68,68,.08)",
+                border: "1px solid rgba(239,68,68,.2)",
+                color: "var(--error)",
+              }}
+            >
               {error}
             </div>
           )}
@@ -64,23 +81,41 @@ export default function RegisterPage() {
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Role toggle */}
             <div>
-              <label className="block text-sm font-medium mb-3" style={{ color: "#9ca3af" }}>
+              <label
+                className="block text-sm font-medium mb-3"
+                style={{ color: "var(--text-secondary)" }}
+              >
                 I want to
               </label>
               <div className="grid grid-cols-2 gap-3">
-                {(["student", "instructor"] as const).map(r => (
+                {(["student", "instructor"] as const).map((r) => (
                   <button
                     key={r}
                     type="button"
                     onClick={() => setRole(r)}
-                    className="py-3 px-4 rounded-lg text-sm font-semibold transition-all border"
-                    style={role === r
-                      ? { background: "rgba(124,58,237,0.25)", color: "#a78bfa", borderColor: "rgba(124,58,237,0.5)" }
-                      : { background: "#1a1a2e", color: "#9ca3af", borderColor: "#2e2e4e" }
-                    }>
+                    className="py-3.5 px-4 rounded-xl text-sm font-semibold transition-all"
+                    style={
+                      role === r
+                        ? {
+                            background: "var(--accent-bg)",
+                            color: "var(--accent)",
+                            border: "1px solid var(--accent-border)",
+                          }
+                        : {
+                            background: "var(--bg-elevated)",
+                            color: "var(--text-muted)",
+                            border: "1px solid var(--border-default)",
+                          }
+                    }
+                  >
                     {r === "student" ? "📚 Learn" : "🎓 Teach"}
-                    <div className="text-xs font-normal mt-1" style={{ opacity: 0.7 }}>
-                      {r === "student" ? "Enroll in courses" : "Create & share courses"}
+                    <div
+                      className="text-xs font-normal mt-1"
+                      style={{ opacity: 0.7 }}
+                    >
+                      {r === "student"
+                        ? "Enroll in courses"
+                        : "Create & share courses"}
                     </div>
                   </button>
                 ))}
@@ -88,7 +123,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2" style={{ color: "#9ca3af" }}>
+              <label
+                className="block text-sm font-medium mb-2"
+                style={{ color: "var(--text-secondary)" }}
+              >
                 Email Address
               </label>
               <input
@@ -96,13 +134,16 @@ export default function RegisterPage() {
                 className="input-field"
                 placeholder="you@example.com"
                 value={email}
-                onChange={e => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2" style={{ color: "#9ca3af" }}>
+              <label
+                className="block text-sm font-medium mb-2"
+                style={{ color: "var(--text-secondary)" }}
+              >
                 Password
               </label>
               <input
@@ -110,7 +151,7 @@ export default function RegisterPage() {
                 className="input-field"
                 placeholder="Min. 6 characters"
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
               />
@@ -120,25 +161,38 @@ export default function RegisterPage() {
               type="submit"
               disabled={loading}
               className="btn-primary w-full py-3 text-base justify-center"
-              style={{ opacity: loading ? 0.7 : 1 }}>
+              style={{ opacity: loading ? 0.7 : 1 }}
+            >
               {loading ? "Creating account…" : "Create Account →"}
             </button>
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-sm" style={{ color: "#6b7280" }}>
+            <p className="text-sm" style={{ color: "var(--text-muted)" }}>
               Already have an account?{" "}
-              <Link href="/login" className="font-semibold" style={{ color: "#a78bfa" }}>
+              <Link
+                href="/login"
+                className="font-semibold"
+                style={{ color: "var(--accent)" }}
+              >
                 Sign in
               </Link>
             </p>
           </div>
         </div>
 
-        <p className="text-center text-xs mt-6" style={{ color: "#4b5563" }}>
-          By registering, you agree to our{" "}
-          <a href="#" style={{ color: "#6b7280" }}>Terms of Service</a> and{" "}
-          <a href="#" style={{ color: "#6b7280" }}>Privacy Policy</a>
+        <p
+          className="text-center text-xs mt-7"
+          style={{ color: "var(--text-muted)" }}
+        >
+          By registering you agree to our{" "}
+          <a href="#" style={{ color: "var(--text-secondary)" }}>
+            Terms
+          </a>{" "}
+          &amp;{" "}
+          <a href="#" style={{ color: "var(--text-secondary)" }}>
+            Privacy Policy
+          </a>
         </p>
       </div>
     </div>

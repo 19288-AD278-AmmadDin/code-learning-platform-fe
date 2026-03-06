@@ -116,13 +116,41 @@ export async function getQuizForLesson(lessonId: number) {
   return request<QuizDetailResponse>(`/quizzes/lesson/${lessonId}`);
 }
 
+export async function createQuiz(lessonId: number, data: { title: string; passing_score: number }) {
+  return request<QuizResponse>(`/quizzes/lesson/${lessonId}`, {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+}
+
+export async function addQuestion(quizId: number, data: { question_text: string; question_type: string }) {
+  return request<QuestionResponse>(`/quizzes/${quizId}/questions`, {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+}
+
+export async function addAnswer(questionId: number, data: { answer_text: string; is_correct: boolean }) {
+  return request<AnswerResponse>(`/quizzes/questions/${questionId}/answers`, {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+}
+
 export async function submitQuizAttempt(
   quizId: number,
-  selectedAnswerIds: number[]
+  selectedAnswerIds: number[],
+  textAnswers?: Record<number, string>
 ) {
+  const body: Record<string, unknown> = { selected_answer_ids: selectedAnswerIds };
+  if (textAnswers && Object.keys(textAnswers).length > 0) {
+    const mapped: Record<number, string> = {};
+    for (const [k, v] of Object.entries(textAnswers)) mapped[Number(k)] = v;
+    body.text_answers = mapped;
+  }
   return request<QuizAttemptResponse>(`/quiz-attempts/quiz/${quizId}`, {
     method: "POST",
-    body: JSON.stringify({ selected_answer_ids: selectedAnswerIds }),
+    body: JSON.stringify(body),
   });
 }
 
@@ -194,7 +222,7 @@ export interface EnrollmentResponse {
 export interface AnswerResponse {
   id: number;
   answer_text: string;
-  is_correct: boolean;
+  is_correct?: boolean;  // hidden for students
   question_id: number;
 }
 
@@ -217,6 +245,7 @@ export interface QuizResponse {
 export interface QuizDetailResponse extends QuizResponse {
   questions: QuestionResponse[];
   attempts_count: number;
+  my_attempt?: QuizAttemptResponse | null;
 }
 
 export interface QuizAttemptResponse {
